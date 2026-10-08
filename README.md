@@ -1,6 +1,8 @@
-# Robotics
-Robotics - Littel together is something Big....
+# Robotics and Computer Programing
+Robotics in logical structure???
 
-Visit - <a href="https://mihirkathiria.github.io/robotics/Main-menu.html"> Robotics Controls </a>
+Littel together is something Big....
+
+Visit - <a href="https://mihirkathiria.github.io/training/Main-menu.html"> Robotics and Programming Controls </a>
 
 For more....
