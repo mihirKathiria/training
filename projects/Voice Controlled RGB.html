@@ -15,6 +15,10 @@
             --pcb-green: #2e7d32;
         }
 
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -272,7 +276,7 @@
         .wire.w-right { right: 30px; }
 
         /* --- ANIMATIONS: WAVES --- */
-        
+
         /* Sound Wave (Mouth -> Phone) */
         .sound-wave {
             position: absolute;
@@ -310,6 +314,78 @@
         @keyframes signalMove {
             0% { opacity: 1; left: 100%; width: 10px; height: 10px; border-width: 5px;}
             100% { opacity: 0; left: 300%; width: 100px; height: 100px; border-width: 1px;}
+        }
+
+        @media (max-width: 900px) {
+            body {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+                flex-direction: column;
+            }
+
+            .control-panel {
+                width: 100%;
+                height: auto;
+                padding: clamp(20px, 5vw, 36px);
+                justify-content: flex-start;
+            }
+
+            .panel-title {
+                font-size: clamp(1.6rem, 5vw, 2.2rem);
+                margin-bottom: 1.25rem;
+            }
+
+            .voice-btn {
+                padding: 14px 18px;
+                margin-bottom: 12px;
+                font-size: clamp(1rem, 3vw, 1.25rem);
+            }
+
+            .btn-icon {
+                font-size: 1.5rem;
+            }
+
+            .stage {
+                width: 100%;
+                height: auto;
+                min-height: 380px;
+                padding: 70px 20px;
+                box-sizing: border-box;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                gap: 70px 24px;
+            }
+
+            .label {
+                bottom: -40px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .stage {
+                min-height: 740px;
+                flex-direction: column;
+                justify-content: center;
+                gap: 65px;
+                padding: 70px 16px;
+            }
+
+            .person-container {
+                transform: scale(0.85);
+            }
+
+            .phone-container {
+                transform: scale(0.9);
+            }
+
+            .mcu-container {
+                transform: scale(0.85);
+            }
         }
 
     </style>
@@ -371,7 +447,7 @@
                 <div class="wire w-left"></div>
                 <div class="wire w-right"></div>
             </div>
-            
+
             <!-- PCB Board Design -->
             <div class="chip">
                 <div class="chip-leg"></div><div class="chip-leg"></div>
@@ -405,10 +481,10 @@
             isAnimating = true;
 
             // --- STEP 1: VOICE COMMAND (0ms - 1000ms) ---
-            
+
             // Animate Mouth
             person.classList.add('speaking');
-            
+
             // Create Sound Waves
             let waveInterval = setInterval(() => {
                 createSoundWave();
@@ -416,13 +492,13 @@
 
             // Wait for speaking to finish (1 second)
             await delay(1000);
-            
+
             clearInterval(waveInterval);
             person.classList.remove('speaking');
 
 
             // --- STEP 2: PHONE PROCESSING (1000ms - 1500ms) ---
-            
+
             micLed.classList.add('mic-active');
             phoneIcon.style.opacity = '0.5'; // flicker effect
             await delay(200);
@@ -431,20 +507,20 @@
 
 
             // --- STEP 3: SIGNAL TRANSMISSION (1500ms - 2500ms) ---
-            
+
             // Create WiFi Signals
             let signalInterval = setInterval(() => {
                 createSignalWave();
             }, 300);
 
             await delay(1000); // Wait for signal to travel
-            
+
             clearInterval(signalInterval);
             micLed.classList.remove('mic-active');
 
 
             // --- STEP 4: OUTPUT (LIGHT ON) ---
-            
+
             if (isOff) {
                 // Turn Off Logic
                 rgbLight.style.backgroundColor = '#333';
@@ -468,7 +544,7 @@
         function createSoundWave() {
             const wave = document.createElement('div');
             wave.classList.add('sound-wave');
-            
+
             // Append to person container so position is relative to person
             person.appendChild(wave);
 
@@ -486,7 +562,7 @@
             const phone = document.querySelector('.phone-container');
             const wave = document.createElement('div');
             wave.classList.add('wifi-wave');
-            
+
             phone.appendChild(wave);
 
             // Trigger CSS animation

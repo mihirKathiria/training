@@ -206,6 +206,61 @@
             }
             .preview-label { font-size: 40px; }
         }
+
+        @media (max-width: 767px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            .preview-area {
+                flex: none;
+                min-height: 35vh;
+                min-height: 35svh;
+                padding: 24px 16px;
+            }
+
+            .preview-label {
+                min-width: 0;
+                max-width: 100%;
+                padding: 16px 20px;
+                font-size: clamp(1.1rem, 5vw, 1.5rem);
+                overflow-wrap: anywhere;
+            }
+
+            .controls-area {
+                flex: none;
+                overflow: visible;
+                padding: 28px 20px;
+            }
+
+            p {
+                margin-bottom: 28px;
+            }
+
+            .slider-group {
+                margin-bottom: 24px;
+            }
+
+            .css-box {
+                margin-top: 28px;
+                padding: 16px;
+            }
+
+            .css-value {
+                font-size: clamp(1rem, 5vw, 1.25rem);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .controls-area {
+                padding-right: 16px;
+                padding-left: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -286,11 +341,11 @@
         var rIn = document.getElementById('r-in');
         var gIn = document.getElementById('g-in');
         var bIn = document.getElementById('b-in');
-        
+
         var rNum = document.getElementById('r-num');
         var gNum = document.getElementById('g-num');
         var bNum = document.getElementById('b-num');
-        
+
         var preview = document.getElementById('preview');
         var label = document.getElementById('label');
         var result = document.getElementById('result');
@@ -326,12 +381,12 @@
             rIn.value = r;
             gIn.value = g;
             bIn.value = b;
-			
+
 			var color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
-            
+
             // First refresh to update backgrounds/contrast
             refresh();
-            
+
             // Then override labels with the color name
             label.innerHTML = name;
             result.innerHTML = color;

@@ -15,6 +15,10 @@
             --nfs-gradient: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
         }
 
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -68,7 +72,7 @@
 
         /* Tap Nozzle Pointing LEFT (Original logic, ensuring no mirroring) */
         /* The path goes from base (left-ish) to spout (further left) */
-        
+
         /* Water Animation */
         #water-stream {
             position: absolute;
@@ -298,24 +302,130 @@
             white-space: nowrap;
         }
 
+        @media (max-width: 900px) {
+            body, html {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            #scene {
+                min-height: max(100vh, 820px);
+                min-height: max(100svh, 820px);
+                height: auto;
+            }
+
+            #wall-section {
+                width: clamp(170px, 40vw, 240px);
+            }
+
+            #sink-assembly {
+                right: 16px;
+                top: 52%;
+            }
+
+            #waves-container {
+                width: min(400px, 70vw);
+                right: clamp(120px, 30vw, 170px);
+            }
+
+            #hand-container {
+                top: 57%;
+                width: min(300px, 76vw);
+            }
+
+            #control-panel {
+                top: 16px;
+                right: 16px;
+                bottom: auto;
+                left: 16px;
+                width: auto;
+                min-height: 0;
+                padding: 20px;
+                gap: 14px;
+            }
+
+            #control-panel h2 {
+                font-size: 1.1rem !important;
+            }
+
+            .control-group {
+                gap: 10px;
+            }
+
+            .status-display {
+                padding: 14px;
+            }
+
+            .status-text {
+                font-size: 1.3rem;
+            }
+
+            .logic-card {
+                padding: 14px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #scene {
+                min-height: max(100vh, 860px);
+                min-height: max(100svh, 860px);
+            }
+
+            #control-panel {
+                left: 12px;
+                right: 12px;
+                padding: 16px;
+            }
+
+            #sink-assembly {
+                top: 52%;
+                right: 0;
+                transform: scale(0.8);
+                transform-origin: top right;
+            }
+
+            #waves-container {
+                width: 65vw;
+                right: 130px;
+            }
+
+            #hand-container {
+                top: 57%;
+                width: 250px;
+            }
+
+            .hand-svg {
+                width: min(210px, 55vw);
+            }
+
+            .nfs-text {
+                font-size: 1.35rem;
+            }
+        }
+
     </style>
 </head>
 <body>
 
     <div id="scene">
-        
+
         <!-- Wall & Sink Section (Anchored Right) -->
         <div id="wall-section">
             <div id="sink-assembly">
                 <div class="tag" style="top: -40px; right: 0;">Smart_Tap System</div>
-                
+
                 <!-- Tap Assembly pointing LEFT toward the hand -->
                 <svg width="200" height="250" viewBox="0 0 200 250" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <!-- Tap Body: Base at right, Spout at left -->
                     <path d="M140 100 L140 50 Q140 20 110 20 L70 20 Q40 20 40 50 L40 80" stroke="#cbd5e1" stroke-width="12" fill="none" />
                     <rect x="130" y="100" width="20" height="40" fill="#94a3b8" stroke="none"/> <!-- Base -->
                     <rect x="25" y="80" width="30" height="15" fill="#64748b" stroke="none"/> <!-- Nozzle at Left -->
-                    
+
                     <!-- Sink Basin -->
                     <path d="M20 140 L180 140 L160 220 Q100 240 40 220 Z" fill="#334155" stroke="#475569" stroke-width="4"/>
                     <line x1="20" y1="140" x2="180" y2="140" stroke="#94a3b8" stroke-width="4"/>
@@ -352,7 +462,7 @@
         <!-- Glass Control Panel (Moved to Left) -->
         <div id="control-panel">
             <h2 style="margin: 0; font-size: 1.2rem; color: var(--accent-color); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Control Panel</h2>
-            
+
             <div class="control-group">
                 <div class="panel-label">
                     <span>Hand Position</span>
@@ -390,7 +500,7 @@
 
         function updateSimulation() {
             const sliderVal = parseInt(slider.value);
-            
+
             // 1. Move Hand
             // Map 0-100 slider to travel from far left toward the sink assembly on the right
             // We'll calculate the 'right-most' stop point based on screen width
@@ -409,7 +519,7 @@
                 water.style.height = '150px';
                 statusText.innerText = "DETECTED";
                 statusText.style.color = "#22d3ee";
-                
+
                 echoWave.style.display = "block";
                 // Echo fills the gap between tap and hand
                 echoWave.style.width = (100 - distance) + '%';
@@ -418,7 +528,7 @@
                 water.style.height = '0px';
                 statusText.innerText = "WAITING...";
                 statusText.style.color = "#ef4444";
-                
+
                 echoWave.style.display = "none";
                 handText.style.textShadow = "2px 2px 0px rgba(0,0,0,0.8)";
             }

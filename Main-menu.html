@@ -6,24 +6,39 @@
     <title>Robotics Project Dashboard</title>
     <style>
         /* --- RESET & LAYOUT --- */
+        html {
+            overflow-x: clip;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            padding: 0;
+            padding: 0 10%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            min-height: 100vh;
+            min-height: 100svh;
+            width: 100%;
+            overflow-x: hidden;
             background-color: #050510; /* Deep Space Black */
             /* Radial gradient for deep space lighting */
             background-image: radial-gradient(circle at 70% 50%, #1a1a2e 0%, #000000 100%);
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* Align menu to the left slightly */
-            padding-left: 10%; /* Offset for menu */
+            justify-content: flex-start;
             position: relative;
         }
 
         /* --- STARS (Generated via JS, Styled here) --- */
+        #stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
         .star {
             position: absolute;
             background: white;
@@ -41,11 +56,11 @@
         /* --- THE EARTH --- */
         .earth-container {
             position: absolute;
-            right: -100px; /* Partially off-screen for dramatic effect */
+            right: -100px;
             top: 50%;
             transform: translateY(-50%);
-            width: 80vh;
-            height: 80vh;
+            width: min(80vh, 80vw);
+            height: min(80vh, 80vw);
             z-index: 1;
             border-radius: 50%;
             box-shadow: -20px 0 50px rgba(0, 100, 255, 0.3), inset 20px 0 80px rgba(0,0,0,0.8);
@@ -92,14 +107,14 @@
         .menu-panel {
             position: relative;
             z-index: 10;
-            width: 400px;
+            width: min(480px, 100%);
             background: rgba(255, 255, 255, 0.05); /* Very transparent */
             backdrop-filter: blur(15px); /* Strong blur */
             -webkit-backdrop-filter: blur(15px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 40px;
+            padding: clamp(24px, 4vw, 40px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
@@ -108,7 +123,7 @@
             font-weight: 300;
             letter-spacing: 4px;
             color: white;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             text-transform: uppercase;
             border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 15px;
@@ -129,8 +144,8 @@
             display: block;
             text-decoration: none;
             color: rgba(255,255,255,0.7);
-            font-size: 1.2rem;
-            padding: 15px 20px;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            padding: 15px clamp(12px, 3vw, 20px);
             border-radius: 8px;
             transition: all 0.3s ease;
             position: relative;
@@ -155,16 +170,40 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             body {
-                padding-left: 0;
-                justify-content: center;
+                padding: 24px 16px;
+                align-items: flex-start;
             }
+
             .earth-container {
-                right: -50%;
-                width: 100vw;
-                height: 100vw;
+                right: -35vw;
+                width: min(100vw, 70vh);
+                height: min(100vw, 70vh);
             }
+
             .menu-panel {
-                width: 85%;
+                width: 100%;
+                max-width: 480px;
+                margin: auto;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 16px 12px;
+            }
+
+            h1 {
+                letter-spacing: 2px;
+                margin-bottom: 22px;
+            }
+
+            li {
+                margin-bottom: 10px;
+            }
+
+            a {
+                padding-top: 13px;
+                padding-bottom: 13px;
             }
         }
     </style>

@@ -15,6 +15,10 @@
             --alert-color: #ef4444;
         }
 
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -280,6 +284,109 @@
             #control-panel { flex-wrap: wrap; height: auto; }
             .logic-card { min-width: 100%; order: 4; }
         }
+
+        @media (max-width: 767px) {
+            html, body {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            html {
+                min-height: 100%;
+            }
+
+            #world {
+                width: 100%;
+                height: max(100vh, 820px);
+                height: max(100svh, 820px);
+                min-height: 820px;
+                overflow: hidden;
+            }
+
+            #project-header {
+                top: 16px;
+                left: 16px;
+                right: 16px;
+            }
+
+            #project-header h1 {
+                font-size: clamp(1.25rem, 5vw, 2rem);
+                letter-spacing: 1px;
+            }
+
+            #wall {
+                width: clamp(64px, 18vw, 100px);
+            }
+
+            #goggle-container {
+                top: 35%;
+                left: 8%;
+            }
+
+            .goggle-svg {
+                width: clamp(180px, 58vw, 280px);
+            }
+
+            #waves-zone {
+                left: clamp(165px, 55vw, 220px);
+                max-width: calc(100vw - 220px);
+            }
+
+            #control-panel {
+                right: 12px;
+                bottom: 12px;
+                left: 12px;
+                width: auto;
+                max-width: none;
+                transform: none;
+                padding: 16px;
+                gap: 12px;
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .panel-status {
+                min-width: 0;
+                padding: 12px 16px;
+            }
+
+            .control-group {
+                min-width: 0;
+            }
+
+            .logic-card {
+                min-width: 0;
+                width: 100%;
+                padding: 12px 14px;
+                font-size: clamp(0.8rem, 3.5vw, 1rem);
+                overflow-wrap: anywhere;
+            }
+
+            input[type=range]::-webkit-slider-thumb {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            #control-panel {
+                right: 8px;
+                left: 8px;
+                padding: 12px;
+            }
+
+            #goggle-container {
+                left: 4%;
+            }
+
+            #waves-zone {
+                left: 52vw;
+            }
+        }
     </style>
 </head>
 <body>
@@ -371,7 +478,7 @@
         const wavesZone = document.getElementById('waves-zone');
         const echoWaves = document.querySelectorAll('.wave-echo');
         const spkLines = document.querySelectorAll('.spk-w');
-        
+
         const FIXED_THRESHOLD = 325;
 
         function updateSimulation() {

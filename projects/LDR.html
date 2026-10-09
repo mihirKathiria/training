@@ -16,6 +16,10 @@
             --accent-color: #facc15;
         }
 
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -181,7 +185,7 @@
             height: 100px; 
             background: #1f2937; 
         }
-        
+
         .bulb {
             width: 36px;
             height: 36px;
@@ -325,17 +329,82 @@
         #info-panel li { margin-bottom: 8px; }
 
         @media (max-width: 1024px) {
-            body { flex-direction: column; }
+            body {
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            html {
+                height: auto;
+                min-height: 100%;
+                overflow-x: hidden;
+            }
             #controls { 
                 width: 100%; 
                 min-width: 0; 
-                height: auto; 
+                height: auto;
+                flex: none;
                 border-left: none; 
                 border-top: 4px solid var(--accent-color); 
-                padding: 30px;
+                padding: clamp(20px, 4vw, 30px);
+                gap: 28px;
             }
-            #sky { height: 50vh; }
+            #sky {
+                width: 100%;
+                height: clamp(420px, 62vh, 700px);
+                height: clamp(420px, 62svh, 700px);
+                flex: none;
+            }
             #info-panel { display: none; }
+
+            #project-header {
+                top: 20px;
+                left: 20px;
+                right: 20px;
+            }
+
+            #project-header h1 {
+                font-size: clamp(1.35rem, 5vw, 2rem);
+            }
+
+            #project-header p {
+                font-size: clamp(0.8rem, 2.5vw, 1rem);
+            }
+
+            .logic-view {
+                font-size: clamp(1rem, 3vw, 1.25rem);
+            }
+
+            .value-display {
+                font-size: 1.25rem;
+            }
+
+            #house-container {
+                transform: translateX(-50%) scale(0.8);
+                transform-origin: bottom center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #sky {
+                height: 58svh;
+                min-height: 390px;
+            }
+
+            #project-header {
+                top: 16px;
+                left: 16px;
+                right: 16px;
+            }
+
+            .status-badge {
+                padding: 9px 16px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -372,7 +441,7 @@
         <div id="ground">
             <div class="hill hill-1"></div>
             <div class="hill hill-2"></div>
-            
+
             <div id="house-container">
                 <div id="glow"></div>
                 <div class="house-structure">
@@ -409,7 +478,7 @@
 
     <div id="controls">
         <h2 style="color:var(--accent-color); font-size: 1.2rem; margin:0; text-transform: uppercase; letter-spacing: 2px;">Control Panel</h2>
-        
+
         <div class="slider-group">
             <div class="slider-header">
                 <span>Input: LDR Level</span>
@@ -456,7 +525,7 @@
 
             sunValTxt.innerText = ldrValue;
             upValTxt.innerText = threshold;
-            
+
             logicTxt.innerHTML = `if (${threshold} > ${ldrValue}) {<br>&nbsp;&nbsp;Streetlight = ON;<br>}`;
 
             const isLightNeeded = threshold > ldrValue;
